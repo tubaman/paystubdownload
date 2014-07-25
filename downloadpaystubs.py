@@ -1,4 +1,6 @@
 import netrc
+import re
+from time import sleep
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -20,6 +22,13 @@ driver.find_element_by_id("password").send_keys(password)
 driver.find_element_by_id("Login").click()
 Select(driver.find_element_by_name("shortCut")).select_by_visible_text("This Year")
 driver.find_element_by_id("updateReportSubmit").click()
-driver.find_element_by_link_text("01/15/2014").click()
-driver.find_element_by_link_text("Printer-Friendly Version").click()
-driver.find_element_by_link_text("Back to paystub list").click()
+
+tbody = driver.find_element_by_tag_name("tbody")
+links = [e for e in tbody.parent.find_elements_by_tag_name('a') if re.match("../../....", e.text)]
+for link in links:
+    link.click()
+    sleep(5)
+    #driver.find_element_by_link_text("Printer-Friendly Version").click()
+    driver.find_element_by_link_text("Back to paystub list").click()
+    Select(driver.find_element_by_name("shortCut")).select_by_visible_text("This Year")
+    driver.find_element_by_id("updateReportSubmit").click()
