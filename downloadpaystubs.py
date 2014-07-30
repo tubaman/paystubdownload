@@ -44,7 +44,6 @@ class PayCheckRecords(object):
         assert response.status_code == 302
         assert response.headers['location'] == self.ROOT_URL + "/default.jsp"
 
-
     def get_paycheck_list(self, start_date, end_date):
         data = {
             'startDate': start_date.strftime("%m/%d/%Y"),
@@ -97,7 +96,7 @@ def main(argv=None):
         year = datetime.now().year
         start_date = datetime(year, 1, 1)
         end_date = datetime(year, 12, 31)
-    user, _ , password = netrc.netrc().authenticators("paycheckrecords.com")
+    user, _, password = netrc.netrc().authenticators("paycheckrecords.com")
     pcr = PayCheckRecords()
     pcr.login(user, password)
     paychecks = pcr.get_paycheck_list(start_date, end_date)
